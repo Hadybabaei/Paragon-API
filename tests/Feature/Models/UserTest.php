@@ -29,7 +29,7 @@ class UserTest extends TestCase
     public function test_User_Creation()
     {
         $response=$this->json('post', '/api/v1/user/store', [
-            'name' => 'hady',
+            'name' => 'sdsdsd',
             'email'=>'asdas@asdasd.com',
             'password'=>'32321asd',
         ]);
