@@ -44,11 +44,11 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
         $this->repository->login($request);
-      
-        ;
-
     }
-
-
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json(['message'=>'you have logged out successfuly'],Response::HTTP_OK);
+    }
 }
 

@@ -23,14 +23,14 @@ class UserTest extends TestCase
  
         $response->assertStatus(Response::HTTP_OK);
     }
-    public function test_User_data_validation()
+    public function test_User_Register_data_validation()
     {
-        $response=$this->json('post', '/api/v1/user/register', []);
+        $response=$this->postJson(route('register'), []);
         $response->assertStatus(422);
     }
     public function test_User_Register()
     {
-        $response=$this->json('post', '/api/v1/user/register', [
+        $response=$this->postJson(route('register'), [
             'name' => 'sdsdsd',
             'email'=>'asdas@asdasd.com',
             'password'=>'32321asd',
@@ -39,16 +39,21 @@ class UserTest extends TestCase
     }
     public function test_user_login_validation()
     {
-        $response=$this->json('post', '/api/v1/user/login', []);
+        $response=$this->postJson(route('login'), []);
         $response->assertStatus(422);
     }
     public function test_user_can_be_logged()
     {
-        $response=$this->json('post', '/api/v1/user/login', [
+        $response=$this->postJson(route('login'), [
             'email'=>'asdas@asdasd.com',
             'password'=>'32321asd',
         ]);
         $response->assertStatus(Response::HTTP_OK);
     }
-    
+    public function test_user_logout()
+    {
+        $user = User::find(1);
+        $response=$this->actingAs($user)->postJson(route('logout'));
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }
