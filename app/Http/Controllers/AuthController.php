@@ -6,11 +6,14 @@ use App\Models\User;
 use App\Repositories\Interfaces\userInterface;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 
 
-class UsersController extends Controller
+
+
+class AuthController extends Controller
 {
     private $repository;
  
@@ -24,16 +27,26 @@ class UsersController extends Controller
             ['message'=>'it works'],
             Response::HTTP_OK);
     }
-    public function store(Request $request)
+    public function register(Request $request)
     {
         $validatedData = $request->validate([
             'name' => ['required', 'max:255'],
             'email' => ['required',  'max:255'],
             'password' => ['required'],
         ]);
-        $this->repository->store($request);
-        // resolve(UserRepository::class)->create($request);
+        $this->repository->register($request);
         return response()->json(['message'=>'User Created successfuly'],Response::HTTP_CREATED);
+    }
+    public function login(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => ['required',  'max:255'],
+            'password' => ['required'],
+        ]);
+        $this->repository->login($request);
+      
+        ;
+
     }
 
 
