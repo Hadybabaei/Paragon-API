@@ -2,12 +2,14 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\Article;
 use App\Models\User;
 use Faker\Factory;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+
 
 class UserTest extends TestCase
 {
@@ -17,12 +19,7 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_user_Model_Working()
-    {
-        $response = $this->get('/api/v1/');
- 
-        $response->assertStatus(Response::HTTP_OK);
-    }
+
     public function test_User_Register_data_validation()
     {
         $response=$this->postJson(route('register'), []);
@@ -54,6 +51,40 @@ class UserTest extends TestCase
     {
         $user = User::find(1);
         $response=$this->actingAs($user)->postJson(route('logout'));
+        $response->assertStatus(Response::HTTP_OK);
+    }
+    public function test_user_can_insert_article()
+    {
+        $user = User::find(1);
+        $response=$this->actingAs($user)->postJson(route('article-store'),[
+            'title' =>"testi",
+            'description' => "testiiiiiiiii",
+            'body' => "testiiii",
+            'category_id'=>1,
+        ]);
+        $response->assertStatus(200);
+    }
+    public function test_user_can_update_article()
+    {
+        $user = User::find(1);
+        $response=$this->actingAs($user)->postJson(route('article-update',1),[
+            'title' =>'testttt' ,
+            'description' => "lorem moremmm",
+            'body' => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nequora odit. Obcharum. Debitis!",
+            'category_id'=>1,
+        ]);
+        $response->assertStatus(200);
+    }
+    public function test_article_update_input_validation()
+    {
+        $user = User::find(1);
+        $response=$this->actingAs($user)->postJson(route('article-update',1),[]);
+        $response->assertStatus(422);
+    }
+    public function test_authenticated_user_can_delete_articles()
+    {
+        $user=User::find(1);
+        $response=$this->actingAs($user)->postJson(route('article-delete',1));
         $response->assertStatus(Response::HTTP_OK);
     }
 }

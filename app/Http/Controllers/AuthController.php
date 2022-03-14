@@ -21,12 +21,7 @@ class AuthController extends Controller
 	{
 	   $this->repository = $repository;
 	}
-    public function index()
-    {
-        return response()->json(
-            ['message'=>'it works'],
-            Response::HTTP_OK);
-    }
+
     public function register(Request $request)
     {
         $validatedData = $request->validate([

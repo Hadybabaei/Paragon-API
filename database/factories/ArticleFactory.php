@@ -20,6 +20,7 @@ class ArticleFactory extends Factory
             'body' => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque iusto vel fugiat obcaecati magni tempora accusantium quam atque minus odit. Obcaecati dolorem libero sunt quas veritatis recusandae eum harum. Debitis!",
             'user_id' => 1,
             'category_id'=>1,
+            'status'=>1,
         ];
     }
 }
